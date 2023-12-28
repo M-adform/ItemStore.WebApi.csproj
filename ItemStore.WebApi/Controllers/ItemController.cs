@@ -1,11 +1,11 @@
-﻿using ItemStore.WebApi.Interfaces;
-using ItemStore.WebApi.Models.DTOs.RequestDTOs;
+﻿using ItemStore.WebApi.Models.DTOs.RequestDTOs;
+using ItemStore.WebApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ItemStore.WebApi.Controllers
 {
     [ApiController]
-    [Route("items")]
+    [Route("item")]
     public class ItemController : ControllerBase
     {
         private readonly IItemService _itemService;
@@ -50,5 +50,16 @@ namespace ItemStore.WebApi.Controllers
             return NoContent();
         }
 
+        [HttpPut("{id}/add-to-shop")]
+        public async Task<IActionResult> AddItemToShopByIdAsync(int id)
+        {
+            return Ok();
+        }
+
+        [HttpPut("{id}/remove-from-shop")]
+        public async Task<IActionResult> DeleteItemFromShopByIdAsync(int id)
+        {
+            return Ok();
+        }
     }
 }

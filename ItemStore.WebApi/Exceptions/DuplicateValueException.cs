@@ -1,4 +1,4 @@
-﻿namespace ItemStore.WebApi.csproj.Helpers
+﻿namespace ItemStore.WebApi.csproj.Exceptions
 {
     public class DuplicateValueException : Exception
     {

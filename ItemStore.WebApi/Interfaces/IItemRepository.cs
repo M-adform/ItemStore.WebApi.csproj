@@ -1,19 +1,14 @@
 ﻿using ItemStore.WebApi.Models.Entities;
 
-namespace ItemStore.WebApi.Interfaces
+namespace ItemStore.WebApi.Repositories
 {
     public interface IItemRepository
     {
-        Task<List<Item>> GetItems();
-
-        Task<Item?> GetItemById(Guid id);
-
-        Task<Item?> GetItemByName(string name);
-
-        Task<Guid> AddItem(Item item);
-
-        Task UpdateItemById(Guid id, Item updatedItem);
-
-        Task DeleteItemById(Guid id);
+        Task<Guid> AddItemAsync(Item item);
+        Task DeleteItemByIdAsync(Guid id);
+        Task<Item?> GetItemByIdAsync(Guid id);
+        Task<Item?> GetItemByNameAsync(string name);
+        Task<List<Item>> GetItemsAsync();
+        Task UpdateItemByIdAsync(Guid id, Item item);
     }
 }

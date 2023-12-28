@@ -1,7 +1,8 @@
-﻿using System.Net;
+﻿using ItemStore.WebApi.csproj.Exceptions;
+using System.Net;
 using System.Text.Json;
 
-namespace ItemStore.WebApi.csproj.Helpers
+namespace ItemStore.WebApi.csproj.Middlewares
 {
     public class ErrorHandlerMiddleware
     {
@@ -28,15 +29,11 @@ namespace ItemStore.WebApi.csproj.Helpers
 
                 switch (ex)
                 {
-                    case AppException e:
-                        response.StatusCode = (int)HttpStatusCode.BadRequest;
-                        break;
-
-                    case ItemNotFoundException e:
+                    case NotFoundException:
                         response.StatusCode = (int)HttpStatusCode.NotFound;
                         break;
 
-                    case DuplicateValueException e:
+                    case DuplicateValueException:
                         response.StatusCode = (int)HttpStatusCode.Conflict;
                         break;
 
