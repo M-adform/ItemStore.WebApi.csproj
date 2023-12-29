@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace ItemStore.WebApi.Models.DTOs.RequestDTOs
@@ -6,13 +6,13 @@ namespace ItemStore.WebApi.Models.DTOs.RequestDTOs
     public class UpdateItemRequest
     {
         [JsonIgnore]
-        [Column("id")]
         public Guid Id { get; set; }
 
-        [Column("name")]
+        [Required]
+        [MaxLength(100)]
         public string Name { get; set; }
 
-        [Column("price")]
+        [Range(0.01, 1000000)]
         public decimal Price { get; set; }
     }
 }

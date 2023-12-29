@@ -10,15 +10,19 @@ namespace ItemStore.WebApi.csproj.Contexts
 
         public DbSet<Shop> Shops { get; set; }
 
+        public DbSet<PurchaseHistory> PurchaseHistories { get; set; }
+
         public DataContext(DbContextOptions<DataContext>
-            options) : base(options)
-        {
-        }
+            options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Item>().ToTable("items");
+            modelBuilder.Entity<Item>().HasOne<Shop>(e => e.Shop)
+                .WithMany(d => d.Items)
+                .HasForeignKey(e => e.ShopId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

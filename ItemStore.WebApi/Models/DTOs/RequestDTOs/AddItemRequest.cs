@@ -1,13 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ItemStore.WebApi.Models.DTOs.RequestDTOs
 {
     public class AddItemRequest
     {
-        [Column("name")]
+        [Required]
+        [MaxLength(100)]
         public string Name { get; set; }
 
-        [Column("price")]
+        [Range(0.01, 1000000)]
         public decimal Price { get; set; }
     }
 }

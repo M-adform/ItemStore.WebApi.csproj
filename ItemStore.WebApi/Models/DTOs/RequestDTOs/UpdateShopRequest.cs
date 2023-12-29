@@ -1,14 +1,15 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ItemStore.WebApi.csproj.Models.DTOs.RequestDTOs
 {
     public class UpdateShopRequest
     {
-        [JsonIgnore]
-        public int Id { get; set; }
-
+        [Required]
+        [MaxLength(100)]
         public string Name { get; set; }
 
-        public decimal Adress { get; set; }
+        [Required]
+        [MaxLength(200)]
+        public string Address { get; set; }
     }
 }

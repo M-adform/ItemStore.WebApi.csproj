@@ -3,6 +3,7 @@ using ItemStore.WebApi.csproj.Exceptions;
 using ItemStore.WebApi.csproj.Interfaces;
 using ItemStore.WebApi.csproj.Models.DTOs.RequestDTOs;
 using ItemStore.WebApi.csproj.Models.Entities;
+using ItemStore.WebApi.Repositories;
 
 namespace ItemStore.WebApi.csproj.Services
 {
@@ -10,40 +11,66 @@ namespace ItemStore.WebApi.csproj.Services
     {
         private readonly IJsonPlaceholderClient _client;
         private readonly IMapper _mapper;
+        private readonly IItemRepository _itemRepository;
+        private readonly IPurchaseHistoryRepository _purchaseHistoryRepository;
+        private readonly IShopRepository _shopRepository;
 
-        public UserService(IJsonPlaceholderClient client, IMapper mapper)
+        public UserService(IJsonPlaceholderClient client, IMapper mapper, IItemRepository itemRepository, IPurchaseHistoryRepository purchaseHistoryRepository, IShopRepository shopRepository)
         {
             _client = client;
             _mapper = mapper;
+            _itemRepository = itemRepository;
+            _purchaseHistoryRepository = purchaseHistoryRepository;
+            _shopRepository = shopRepository;
         }
 
         public async Task<List<User>?> GetUsersAsync()
         {
-            var result = await _client.GetUsersAsync();
-            if (!result.IsSuccessful)
+            var usersResult = await _client.GetUsersAsync();
+            if (!usersResult.IsSuccessful)
                 throw new Exception("Users not retrieved.");
 
-            return result.Data;
+            return usersResult.Data;
         }
 
         public async Task<User?> GetUserByIdAsync(int id)
         {
-            var result = await _client.GetUserByIdAsync(id);
-            if (!result.IsSuccessful)
+            var usersResult = await _client.GetUserByIdAsync(id);
+            if (!usersResult.IsSuccessful)
                 throw new NotFoundException("User not found.");
 
-            var user = _mapper.Map<User>(result.Data);
-            return user;
+            return _mapper.Map<User>(usersResult.Data);
         }
 
         public async Task<User> AddUserAsync(AddUserRequest request)
         {
-            var result = await _client.AddUserAsync(request);
-            if (!result.IsSuccessful)
+            var usersResult = await _client.AddUserAsync(request);
+            if (!usersResult.IsSuccessful)
                 throw new Exception("User not added.");
 
-            var user = _mapper.Map<User>(result.Data);
-            return user;
+            return _mapper.Map<User>(usersResult.Data);
+        }
+
+        public async Task BuyItem(int userId, Guid itemId)
+        {
+            var user = await _client.GetUserByIdAsync(userId) ?? throw new NotFoundException("User not found.");
+            var item = await _itemRepository.GetItemByIdAsync(itemId) ?? throw new NotFoundException("Item not found.");
+            var shop = await _shopRepository.GetShopByIdAsync(item.ShopId) ?? throw new NotFoundException("Item is not sold in shops.");
+
+            PurchaseHistory newPurchase = new()
+            {
+                UserId = userId,
+                Username = user.Data.Username,
+                ItemId = itemId,
+                ItemName = item.Name,
+                Price = item.Price,
+                ShopName = shop.Name
+            };
+
+            item.OutOfStock = true;
+
+            await _itemRepository.UpdateItemByIdAsync(itemId, item);
+            await _purchaseHistoryRepository.BuyItem(newPurchase);
         }
     }
 }

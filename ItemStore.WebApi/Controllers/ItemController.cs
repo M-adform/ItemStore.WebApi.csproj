@@ -1,4 +1,5 @@
-﻿using ItemStore.WebApi.Models.DTOs.RequestDTOs;
+﻿using ItemStore.WebApi.csproj.Models.DTOs.RequestDTOs;
+using ItemStore.WebApi.Models.DTOs.RequestDTOs;
 using ItemStore.WebApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,29 +19,27 @@ namespace ItemStore.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetItems()
         {
-            var items = await _itemService.GetItems();
-            return Ok(items);
+            return Ok(await _itemService.GetItems());
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetItemById(Guid id)
         {
-            var item = await _itemService.GetItemById(id);
-            return Ok(item);
+            return Ok(await _itemService.GetItemById(id));
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddItem([FromBody] AddItemRequest newItem)
+        public async Task<IActionResult> AddItem([FromBody] AddItemRequest request)
         {
-            var newItemId = await _itemService.AddItem(newItem);
-            return CreatedAtAction(nameof(GetItemById), new { id = newItemId }, newItem);
+            var addedItem = await _itemService.AddItem(request);
+            return CreatedAtAction(nameof(GetItemById), new { id = addedItem.Id }, request);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateItemById(Guid id, [FromBody] UpdateItemRequest updatedItem)
+        public async Task<IActionResult> UpdateItemById(Guid id, [FromBody] UpdateItemRequest request)
         {
-            await _itemService.UpdateItemById(id, updatedItem);
-            return CreatedAtAction(nameof(GetItemById), new { id }, updatedItem);
+            await _itemService.UpdateItemById(id, request);
+            return Ok();
         }
 
         [HttpDelete("{id}")]
@@ -51,15 +50,17 @@ namespace ItemStore.WebApi.Controllers
         }
 
         [HttpPut("{id}/add-to-shop")]
-        public async Task<IActionResult> AddItemToShopByIdAsync(int id)
+        public async Task<IActionResult> AddItemToShopById(Guid id, [FromBody] AddItemToShopRequest request)
         {
+            await _itemService.AddItemToShopByIdAsync(id, request);
             return Ok();
         }
 
         [HttpPut("{id}/remove-from-shop")]
-        public async Task<IActionResult> DeleteItemFromShopByIdAsync(int id)
+        public async Task<IActionResult> DeleteItemFromShopById(Guid id)
         {
-            return Ok();
+            await _itemService.DeleteItemFromShopByIdAsync(id);
+            return NoContent();
         }
     }
 }

@@ -19,7 +19,7 @@ namespace ItemStore.WebApi.csproj.Repositories
             return await _dataContext.Shops.ToListAsync();
         }
 
-        public async Task<Shop?> GetShopByIdAsync(int id)
+        public async Task<Shop?> GetShopByIdAsync(int? id)
         {
             return await _dataContext.Shops.FirstOrDefaultAsync(i => i.Id == id);
         }
@@ -29,31 +29,31 @@ namespace ItemStore.WebApi.csproj.Repositories
             return await _dataContext.Shops.FirstOrDefaultAsync(i => i.Name == name);
         }
 
-        public async Task<int> AddShopAsync(Shop shop)
+        public async Task<Shop> AddShopAsync(Shop shop)
         {
             _dataContext.Shops.Add(shop);
             await _dataContext.SaveChangesAsync();
-            return shop.Id;
+            return shop;
         }
 
         public async Task UpdateShopByIdAsync(int id, Shop shop)
         {
-            var itemToUpdate = await _dataContext.Shops.FirstOrDefaultAsync(i => i.Id == id);
-            if (itemToUpdate == null)
+            var shopToUpdate = await _dataContext.Shops.FirstOrDefaultAsync(i => i.Id == id);
+            if (shopToUpdate == null)
                 return;
 
-            itemToUpdate.Name = shop.Name;
-            itemToUpdate.Adress = shop.Adress;
+            shopToUpdate.Name = shop.Name;
+            shopToUpdate.Address = shop.Address;
             await _dataContext.SaveChangesAsync();
         }
 
         public async Task DeleteShopByIdAsync(int id)
         {
-            var itemToDelete = await _dataContext.Shops.FirstOrDefaultAsync(i => i.Id == id);
-            if (itemToDelete == null)
+            var shopToDelete = await _dataContext.Shops.FirstOrDefaultAsync(i => i.Id == id);
+            if (shopToDelete == null)
                 return;
 
-            _dataContext.Remove(itemToDelete);
+            _dataContext.Remove(shopToDelete);
             await _dataContext.SaveChangesAsync();
         }
     }

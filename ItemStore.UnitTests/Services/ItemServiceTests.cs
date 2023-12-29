@@ -3,6 +3,7 @@ using AutoFixture.Xunit2;
 using AutoMapper;
 using FluentAssertions;
 using ItemStore.WebApi.csproj.Exceptions;
+using ItemStore.WebApi.csproj.Interfaces;
 using ItemStore.WebApi.csproj.Mappings;
 using ItemStore.WebApi.Models.DTOs.RequestDTOs;
 using ItemStore.WebApi.Models.Entities;
@@ -16,6 +17,7 @@ namespace ItemStore.UnitTests.Services
     {
         private readonly IMapper _mapper;
         private readonly Mock<IItemRepository> _itemRepositoryMock;
+        private readonly Mock<IShopRepository> _shopRepositoryMock;
         private readonly IItemService _itemService;
         private readonly Fixture _fixture;
 
@@ -23,7 +25,8 @@ namespace ItemStore.UnitTests.Services
         {
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<AutoMapperProfile>()));
             _itemRepositoryMock = new Mock<IItemRepository>();
-            _itemService = new ItemService(_itemRepositoryMock.Object, _mapper);
+            _shopRepositoryMock = new Mock<IShopRepository>();
+            _itemService = new ItemService(_itemRepositoryMock.Object, _mapper, _shopRepositoryMock.Object);
             _fixture = new Fixture();
         }
 

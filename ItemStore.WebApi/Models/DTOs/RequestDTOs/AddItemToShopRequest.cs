@@ -2,10 +2,9 @@
 
 namespace ItemStore.WebApi.csproj.Models.DTOs.RequestDTOs
 {
-    public class AddUserRequest
+    public class AddItemToShopRequest
     {
-        [Required]
-        [MaxLength(100)]
-        public string Username { get; set; }
+        [Range(1, int.MaxValue)]
+        public int ShopId { get; set; }
     }
 }

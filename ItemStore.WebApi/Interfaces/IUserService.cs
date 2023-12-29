@@ -10,5 +10,7 @@ namespace ItemStore.WebApi.csproj.Interfaces
         Task<User?> GetUserByIdAsync(int id);
 
         Task<User> AddUserAsync(AddUserRequest request);
+
+        Task BuyItem(int userId, Guid itemId);
     }
 }

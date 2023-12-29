@@ -1,13 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace ItemStore.WebApi.Models.DTOs.ResponseDTOs
+﻿namespace ItemStore.WebApi.Models.DTOs.ResponseDTOs
 {
     public class GetItemResponse
     {
-        [Column("name")]
+        public Guid Id { get; set; }
+
         public string Name { get; set; }
 
-        [Column("price")]
         public decimal Price { get; set; }
     }
 }

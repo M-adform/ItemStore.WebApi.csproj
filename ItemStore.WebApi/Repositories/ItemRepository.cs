@@ -28,11 +28,11 @@ namespace ItemStore.WebApi.Repositories
             return await _dataContext.Items.FirstOrDefaultAsync(i => i.Name == name);
         }
 
-        public async Task<Guid> AddItemAsync(Item item)
+        public async Task<Item> AddItemAsync(Item item)
         {
             _dataContext.Items.Add(item);
             await _dataContext.SaveChangesAsync();
-            return item.Id;
+            return item;
         }
 
         public async Task UpdateItemByIdAsync(Guid id, Item item)
@@ -43,6 +43,7 @@ namespace ItemStore.WebApi.Repositories
 
             itemToUpdate.Name = item.Name;
             itemToUpdate.Price = item.Price;
+            itemToUpdate.ShopId = item.ShopId;
             await _dataContext.SaveChangesAsync();
         }
 

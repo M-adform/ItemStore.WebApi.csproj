@@ -21,9 +21,7 @@ namespace ItemStore.WebApi.csproj.Clients
         {
             var response = await _httpClient.GetAsync("/users");
             if (!response.IsSuccessStatusCode)
-            {
                 return new JsonPlaceholderResult<List<User>> { IsSuccessful = false, ErrorMessage = response.StatusCode.ToString() };
-            }
 
             var users = await response.Content.ReadAsAsync<List<User>>();
             return new JsonPlaceholderResult<List<User>> { IsSuccessful = true, ErrorMessage = "", Data = users };
@@ -33,14 +31,11 @@ namespace ItemStore.WebApi.csproj.Clients
         {
             var response = await _httpClient.GetAsync($"/users/{id}");
             if (!response.IsSuccessStatusCode)
-            {
                 return new JsonPlaceholderResult<User> { IsSuccessful = false, ErrorMessage = response.StatusCode.ToString() };
-            }
 
             var data = await response.Content.ReadAsAsync<User>();
             return new JsonPlaceholderResult<User> { IsSuccessful = true, ErrorMessage = "", Data = data };
         }
-
 
         public async Task<JsonPlaceholderResult<User>> AddUserAsync([FromBody] AddUserRequest addUserRequest)
         {
@@ -49,9 +44,7 @@ namespace ItemStore.WebApi.csproj.Clients
 
             var response = await _httpClient.PostAsync("/users", content);
             if (!response.IsSuccessStatusCode)
-            {
                 return new JsonPlaceholderResult<User> { IsSuccessful = false, ErrorMessage = response.StatusCode.ToString() };
-            }
 
             var data = await response.Content.ReadAsAsync<User>();
             return new JsonPlaceholderResult<User> { IsSuccessful = true, ErrorMessage = "", Data = data };

@@ -3,6 +3,7 @@ using ItemStore.WebApi.csproj.Contexts;
 using ItemStore.WebApi.csproj.Interfaces;
 using ItemStore.WebApi.csproj.Middlewares;
 using ItemStore.WebApi.csproj.Repositories;
+using ItemStore.WebApi.csproj.Services;
 using ItemStore.WebApi.Repositories;
 using ItemStore.WebApi.Services;
 using Microsoft.EntityFrameworkCore;
@@ -21,12 +22,9 @@ builder.Services.AddTransient<IItemService, ItemService>();
 builder.Services.AddTransient<IItemRepository, ItemRepository>();
 builder.Services.AddTransient<IShopRepository, ShopRepository>();
 builder.Services.AddTransient<IShopService, ShopService>();
-builder.Services.AddTransient<JsonPlaceholderClient>();
-
-builder.Services.AddHttpClient<IJsonPlaceholderClient, JsonPlaceholderClient>(httpClient =>
-{
-    httpClient.BaseAddress = new Uri("https://jsonplaceholder.typicode.com");
-});
+builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IPurchaseHistoryRepository, PurchaseHistoryRepository>();
+builder.Services.AddHttpClient<IJsonPlaceholderClient, JsonPlaceholderClient>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 
