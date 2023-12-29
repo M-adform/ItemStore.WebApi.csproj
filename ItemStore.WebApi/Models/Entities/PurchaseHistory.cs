@@ -16,11 +16,6 @@ namespace ItemStore.WebApi.csproj.Models.Entities
         public int UserId { get; set; }
 
         [Required]
-        [MaxLength(100)]
-        [Column("username")]
-        public string Username { get; set; }
-
-        [Required]
         [Column("item_id")]
         public Guid ItemId { get; set; }
 
@@ -34,10 +29,5 @@ namespace ItemStore.WebApi.csproj.Models.Entities
         [Required]
         [Column("price")]
         public decimal Price { get; set; }
-
-        [Required]
-        [MaxLength(100)]
-        [Column("shop_name")]
-        public string ShopName { get; set; }
     }
 }

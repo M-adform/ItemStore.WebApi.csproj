@@ -53,18 +53,18 @@ namespace ItemStore.WebApi.csproj.Services
 
         public async Task BuyItem(int userId, Guid itemId)
         {
-            var user = await _client.GetUserByIdAsync(userId) ?? throw new NotFoundException("User not found.");
             var item = await _itemRepository.GetItemByIdAsync(itemId) ?? throw new NotFoundException("Item not found.");
-            var shop = await _shopRepository.GetShopByIdAsync(item.ShopId) ?? throw new NotFoundException("Item is not sold in shops.");
+            _ = await _shopRepository.GetShopByIdAsync(item.ShopId) ?? throw new NotFoundException("Item is not sold in shops.");
+            var user = await _client.GetUserByIdAsync(userId);
+            if (!user.IsSuccessful)
+                throw new NotFoundException("User not found.");
 
             PurchaseHistory newPurchase = new()
             {
                 UserId = userId,
-                Username = user.Data.Username,
                 ItemId = itemId,
                 ItemName = item.Name,
-                Price = item.Price,
-                ShopName = shop.Name
+                Price = item.Price
             };
 
             item.OutOfStock = true;

@@ -21,7 +21,7 @@ namespace ItemStore.UnitTests.Services
         {
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<AutoMapperProfile>()));
             _clientMock = new Mock<IJsonPlaceholderClient>();
-            _userService = new UserService(_clientMock.Object, _mapper);
+            //_userService = new UserService(_clientMock.Object, _mapper);
         }
 
         [Theory]

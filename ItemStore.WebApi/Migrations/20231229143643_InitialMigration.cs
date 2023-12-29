@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ItemStore.WebApi.csproj.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -54,11 +54,9 @@ namespace ItemStore.WebApi.csproj.Migrations
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     user_id = table.Column<int>(type: "integer", nullable: false),
-                    username = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     item_id = table.Column<Guid>(type: "uuid", nullable: false),
                     item_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    price = table.Column<decimal>(type: "numeric", nullable: false),
-                    shop_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false)
+                    price = table.Column<decimal>(type: "numeric", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -34,12 +34,5 @@ namespace ItemStore.WebApi.csproj.Controllers
             var addedUser = await _userService.AddUserAsync(request);
             return CreatedAtAction("GetUserById", new { id = addedUser.Id }, addedUser);
         }
-
-        [HttpPut("{id}/buy-{itemId}")]
-        public async Task<IActionResult> BuyItem(int id, Guid itemId)
-        {
-            await _userService.BuyItem(id, itemId);
-            return Ok();
-        }
     }
 }

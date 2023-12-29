@@ -63,6 +63,10 @@ namespace ItemStore.WebApi.csproj.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("item_id");
+
                     b.Property<string>("ItemName")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -73,29 +77,13 @@ namespace ItemStore.WebApi.csproj.Migrations
                         .HasColumnType("numeric")
                         .HasColumnName("price");
 
-                    b.Property<string>("ShopName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("shop_name");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("username");
-
-                    b.Property<Guid>("itemId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("item_id");
-
-                    b.Property<int>("userId")
+                    b.Property<int>("UserId")
                         .HasColumnType("integer")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("itemId");
+                    b.HasIndex("ItemId");
 
                     b.ToTable("purchase-histories");
                 });
@@ -140,7 +128,7 @@ namespace ItemStore.WebApi.csproj.Migrations
                 {
                     b.HasOne("ItemStore.WebApi.Models.Entities.Item", "Item")
                         .WithMany()
-                        .HasForeignKey("itemId")
+                        .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

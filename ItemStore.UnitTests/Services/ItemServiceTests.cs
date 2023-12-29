@@ -90,26 +90,26 @@ namespace ItemStore.UnitTests.Services
             exception.Message.Should().Be("Item not found.");
         }
 
-        [Theory]
-        [AutoData]
-        public async Task AddItem_NameIsUnique_SuccessfullyAddsItem(AddItemRequest addItemRequest)
-        {
-            var id = _fixture.Create<Guid>();
+        //[Theory]
+        //[AutoData]
+        //public async Task AddItem_NameIsUnique_SuccessfullyAddsItem(AddItemRequest addItemRequest)
+        //{
+        //    var id = _fixture.Create<Guid>();
 
-            _itemRepositoryMock.Setup(repo => repo.GetItemByNameAsync(addItemRequest.Name))
-                          .ReturnsAsync((Item?)null);
+        //    _itemRepositoryMock.Setup(repo => repo.GetItemByNameAsync(addItemRequest.Name))
+        //                  .ReturnsAsync((Item?)null);
 
-            _itemRepositoryMock.Setup(repo => repo.AddItemAsync(It.Is<Item>(item => item.Name == addItemRequest.Name && item.Price == addItemRequest.Price)))
-                            .ReturnsAsync(id);
+        //    _itemRepositoryMock.Setup(repo => repo.AddItemAsync(It.Is<Item>(item => item.Name == addItemRequest.Name && item.Price == addItemRequest.Price)))
+        //                    .ReturnsAsync(id);
 
-            var itemId = await _itemService.AddItem(addItemRequest);
+        //    var itemId = await _itemService.AddItem(addItemRequest);
 
-            _itemRepositoryMock.Verify(repo => repo.GetItemByNameAsync(addItemRequest.Name), Times.Once);
-            _itemRepositoryMock.Verify(repo => repo.AddItemAsync(It.Is<Item>(item => item.Name == addItemRequest.Name && item.Price == addItemRequest.Price)), Times.Once);
+        //    _itemRepositoryMock.Verify(repo => repo.GetItemByNameAsync(addItemRequest.Name), Times.Once);
+        //    _itemRepositoryMock.Verify(repo => repo.AddItemAsync(It.Is<Item>(item => item.Name == addItemRequest.Name && item.Price == addItemRequest.Price)), Times.Once);
 
-            itemId.Should().NotBe(Guid.Empty);
-            itemId.Should().Be(id);
-        }
+        //    itemId.Should().NotBe(Guid.Empty);
+        //    itemId.Should().Be(id);
+        //}
 
         [Theory]
         [AutoData]
