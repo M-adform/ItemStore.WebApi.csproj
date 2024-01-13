@@ -39,7 +39,7 @@ namespace ItemStore.WebApi.Controllers
         public async Task<IActionResult> UpdateItemById(Guid id, [FromBody] UpdateItemRequest request)
         {
             await _itemService.UpdateItemById(id, request);
-            return Ok();
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
@@ -53,7 +53,7 @@ namespace ItemStore.WebApi.Controllers
         public async Task<IActionResult> AddItemToShopById(Guid id, [FromBody] AddItemToShopRequest request)
         {
             await _itemService.AddItemToShopByIdAsync(id, request);
-            return Ok();
+            return NoContent();
         }
 
         [HttpPut("{id}/remove-from-shop")]

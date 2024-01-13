@@ -18,7 +18,7 @@ namespace ItemStore.WebApi.csproj.Controllers
         public async Task<IActionResult> BuyItem(int userId, Guid id)
         {
             await _userService.BuyItem(userId, id);
-            return Ok();
+            return NoContent();
         }
     }
 }

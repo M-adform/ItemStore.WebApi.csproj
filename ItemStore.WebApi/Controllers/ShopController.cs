@@ -45,7 +45,7 @@ namespace ItemStore.WebApi.csproj.Controllers
         public async Task<IActionResult> UpdateShopById(int id, UpdateShopRequest request)
         {
             await _shopService.UpdateShopByIdAsync(id, request);
-            return Ok();
+            return NoContent();
         }
     }
 }

@@ -31,7 +31,7 @@ namespace ItemStore.WebApi.csproj.Clients
         {
             var response = await _httpClient.GetAsync($"/users/{id}");
             if (!response.IsSuccessStatusCode)
-                return new JsonPlaceholderResult<User> { IsSuccessful = false, ErrorMessage = response.StatusCode.ToString() };
+                return new JsonPlaceholderResult<User> { IsSuccessful = false, ErrorMessage = response.ReasonPhrase };
 
             var data = await response.Content.ReadAsAsync<User>();
             return new JsonPlaceholderResult<User> { IsSuccessful = true, ErrorMessage = "", Data = data };
